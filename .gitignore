@@ -1,0 +1,6 @@
+result
+webcrawler_result
+.DS_Store
+*.code-workspace
+.vscode/
+article_list.txt
