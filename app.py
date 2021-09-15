@@ -59,10 +59,11 @@ def clean_title(title):
     t = t.replace(".","")
     return t.lower()
 
-def console_output(website, subject, header, text_len, img):
+def console_output(website, subject, header, text_len, img, date):
     print('------------------------------------------------------')
     print("{} - {}".format(w,s))
     print(r)
+    print("Date: {}".format(date))
     print(colored("Title - {} ".format(header),"cyan"))
     print(colored("Article lenght - {}".format(text_len),"yellow"))
     print(colored("{} images found".format(len(img)),"magenta"))
@@ -71,6 +72,7 @@ def console_output(website, subject, header, text_len, img):
 
 start = datetime.datetime.now()
 print(colored("Webcrawler starting at {} ...".format(start),"green"))
+print("Press CTRL-C to exit.")
 
 path = "result"
 if not os.path.exists(path):
@@ -97,6 +99,7 @@ for s in subject:
                         header = page.title(article).strip()
                         text = page.text(article).strip()
                         img = page.image(article,r)
+                        article_date = page.date(article)
 
                         header_count = len(header)
                         article_count = len(article)
@@ -140,6 +143,12 @@ for s in subject:
                                 with open(path_article+'/Link.txt', 'w') as f:
                                     f.write(r)
                                 time.sleep(.5)
+
+                            if article_date:
+                                #with open(path_article+'/Bilder/'+'Link.txt', 'w') as f:
+                                with open(path_article+'/'+article_date+'.txt', 'w') as f:
+                                    f.write(article_date)
+                                time.sleep(.5)
                             
                             # single img
                             """
@@ -161,7 +170,7 @@ for s in subject:
                                         path_img = path_article+'/img/extra/'+i[1] 
                                         save_img(i[0], path_img)
 
-                            console_output(w,s,header,text_count,img)
+                            console_output(w,s,header,text_count,img,article_date)
                             save_article_title(r)
                             time.sleep(.5)
                     except Exception as e:
