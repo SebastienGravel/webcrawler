@@ -4,3 +4,4 @@ webcrawler_result
 *.code-workspace
 .vscode/
 article_list.txt
+__pycache__
