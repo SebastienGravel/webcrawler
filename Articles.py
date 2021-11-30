@@ -38,13 +38,19 @@ class Articles:
                     "subscribe",
                     "Subscribe",
                     "subscription",
+                    "Subscription",
                     "register now",
                     "newsletter",
                     "mailinglist",
                     "Previous image",
                     "Next image",
                     "Previous item",
-                    "Next item"
+                    "Next item",
+                    "Save",
+                    "Follow us",
+                    "Sign in",
+                    "Cancel",
+                    "cancel"
                     ]
 
                 for w in watch_list:
@@ -97,7 +103,6 @@ class Articles:
 
                     img_filename = ilink.split("/")[-1]  
                     img_list.append([ilink, img_filename])
-
         return img_list
         
         # single img
@@ -141,9 +146,9 @@ class Articles:
         published_date = "0000-00-00"
         
         try:
-            if soup.find("time"):
+            if soup.find('article').find("time"):
                 #print("Time tag exist")
-                time = soup.find('time')
+                time = soup.find('article').find('time')
                 for k,v in time.attrs.items():
                     if k == "datetime":
                         fulltime = time['datetime'].split("T")
