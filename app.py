@@ -161,13 +161,13 @@ for s in subject:
                             if img:
                                 os.mkdir(path_article+'/img')
                                 if len(img) > 1:
-                                    os.mkdir(path_article+'/img/extra')
+                                    os.mkdir(path_article+'/img')
                                 for c,i in enumerate(img):
                                     if c == 0:
                                         path_img = path_article+'/img/'+i[1] 
                                         save_img(i[0], path_img)
                                     else:
-                                        path_img = path_article+'/img/extra/'+i[1] 
+                                        path_img = path_article+'/img/'+i[1] 
                                         save_img(i[0], path_img)
 
                             console_output(w,s,header,text_count,img,article_date)
