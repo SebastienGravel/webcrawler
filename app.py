@@ -1,7 +1,7 @@
 from Search import Search
 from Articles import Articles
 from termcolor import colored
-import requests, sys, shutil, json, time, datetime, pathlib, os
+import requests, sys, shutil, json, time, datetime, pathlib, os, argparse
 
 def get_time():
     now = datetime.datetime.now()
@@ -70,8 +70,18 @@ def console_output(website, subject, header, text_len, img, date):
     print(colored("Articles save successfully!","green"))
     print('------------------------------------------------------')
 
+# Add argument listener for the search mode.
+search_mode = argparse.ArgumentParser(description="Search mode")
+search_mode.add_argument('-ns', '--nostrict', nargs='?', const=1, type=int, help="Search in nostrict mode")
+args = search_mode.parse_args()
+
+
 start = datetime.datetime.now()
 print(colored("Webcrawler starting at {} ...".format(start),"green"))
+if(args.nostrict == 1):
+    print(colored("- No strict mode","yellow"))
+else:
+    print(colored("- Strict mode","yellow"))
 print("Press CTRL-C to exit.")
 
 path = "result"
@@ -87,7 +97,7 @@ subject = get_file("subject.txt")
 
 for s in subject:
     for w in website:
-        look_up = Search(w,s)
+        look_up = Search(w,s, args.nostrict)
         result = look_up.get_results()
 
         if result:
@@ -160,9 +170,11 @@ for s in subject:
                             # multiple img
                             if img:
                                 os.mkdir(path_article+'/img')
+                                imgt = len(img)
                                 for c,i in enumerate(img):
                                     path_img = path_article+'/img/'+i[1] 
                                     save_img(i[0], path_img)           
+                                    #print(colored("Saving img{} of {} ".format(c,imgt),"green"))
 
                             console_output(w,s,header,text_count,img,article_date)
                             save_article_title(r)

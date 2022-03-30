@@ -34,13 +34,17 @@ class Articles:
                 #text analyser
                 t = 0
                 watch_list = [
-                    "subscribing", 
+                    "subscribing",
+                    "Subscribing", 
                     "subscribe",
                     "Subscribe",
                     "subscription",
                     "Subscription",
                     "register now",
+                    "Newsletter",
                     "newsletter",
+                    "Newsletters",
+                    "newsletters",
                     "mailinglist",
                     "Previous image",
                     "Next image",
@@ -50,7 +54,13 @@ class Articles:
                     "Follow us",
                     "Sign in",
                     "Cancel",
-                    "cancel"
+                    "cancel",
+                    "Cookie",
+                    "cookie",
+                    "Cookies",
+                    "cookies",
+                    "Email",
+                    "email"
                     ]
 
                 for w in watch_list:
@@ -180,9 +190,16 @@ class Articles:
                         published_date = "0000-00-00"
 
             else:
-                search_date = soup.body.findAll(text=re.compile('[A-Za-z]+\s[0-9]+,?\s[0-9]+')) # Aaa+ 00, 0000
-                rev_text_date = soup.body.findAll(text=re.compile('[0-9]+\s[A-Za-z]+,?\s[0-9]+')) # 00 Aaa+, 0000
-                dash_date = soup.body.find(text=re.compile('[0-9]+\\/[0-9]+\\/[0-9]+')) # 00/00/0000
+                search_date = soup.find('article').findAll(text=re.compile('[A-Za-z]+\s[0-9]+,?\s[0-9]+')) # Aaa+ 00, 0000
+                rev_text_date = soup.find('article').findAll(text=re.compile('[0-9]+\s[A-Za-z]+,?\s[0-9]+')) # 00 Aaa+, 0000
+                dash_date = soup.find('article').findAll(text=re.compile('[0-9]+\\/[0-9]+\\/[0-9]+')) # 00/00/0000
+                
+                """
+                print("Regex time")
+                print(search_date)
+                print(rev_text_date)
+                print(dash_date)
+                """
 
                 if len(search_date) > 0:
                     fulltime = search_date[0]
