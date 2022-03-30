@@ -37,6 +37,14 @@ After the virtual environment is launch, you can start the webcrawler applicatio
 
 `python app.py`
 
+By default, the webcrawler will run in strict search mode, meaning it will search for the exact sentence found in the subject.txt file
+
+You can also run the webcrawler in nostrict mode, this mode will let you search by sending the request sentence as separeted words.
+
+You run the application in nostrict mode you need to pass the argument -ns or --nostrict when starting the application.
+
+`python app.py --nostrict`
+
 ---
 
 You can stop the webcrawler by typing **CTRL-D** 
