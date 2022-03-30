@@ -41,9 +41,9 @@ By default, the webcrawler will run in strict search mode, meaning it will searc
 
 You can also run the webcrawler in nostrict mode, this mode will let you search by sending the request sentence as separeted words.
 
-You run the application in nostrict mode you need to pass the argument -ns or --nostrict when starting the application.
+To run the application in nostrict mode you need to pass the argument -ns or --nostrict when starting the application.
 
-`python app.py --nostrict`
+`python app.py -ns` or `python app.py --nostrict`
 
 ---
 
