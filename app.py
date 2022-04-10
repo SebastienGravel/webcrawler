@@ -70,6 +70,12 @@ def console_output(website, subject, header, text_len, img, date):
     print(colored("Articles save successfully!","green"))
     print('------------------------------------------------------')
 
+def console_reject(r):
+    print('------------------------------------------------------')
+    print (colored("{}".format(r),"yellow"))
+    print (colored("This page don't look like an article ...", "yellow"))
+    print('------------------------------------------------------')
+
 # Add argument listener for the search mode.
 search_mode = argparse.ArgumentParser(description="Search mode")
 search_mode.add_argument('-ns', '--nostrict', nargs='?', const=1, type=int, help="Search in nostrict mode")
@@ -114,8 +120,9 @@ for s in subject:
                         header_count = len(header)
                         article_count = len(article)
                         text_count = len(text)
+                        dont_save = True
 
-                        if header_count != 0:
+                        if header_count != 0 and text_count > 200 and dont_save == True:
 
                             folder_term = s.replace(" ","_")
                             path_term = os.path.join(path,folder_term)
@@ -139,26 +146,31 @@ for s in subject:
                                 #with open(path_article+'/Bilder/'+'Headline.txt', 'w') as f:
                                 with open(path_article+'/Headline.txt', 'w') as f:
                                     f.write(header)
-                                time.sleep(.5)
+                                time.sleep(.7)
                                         
                             if text:
                                 text = text.strip()
                                 #with open(path_article+'/Bilder/'+'Text.txt', 'w') as f:
                                 with open(path_article+'/Text.txt', 'w') as f:
                                     f.write(text)
-                                time.sleep(.5)
+                                time.sleep(.7)
+                            
+                            if len(text) != 0:
+                                with open(path_article+'/Lenght.txt', 'w') as f:
+                                    f.write(str(text_count))
+                                time.sleep(.7)
                             
                             if r:
                                 #with open(path_article+'/Bilder/'+'Link.txt', 'w') as f:
                                 with open(path_article+'/Link.txt', 'w') as f:
                                     f.write(r)
-                                time.sleep(.5)
-
+                                time.sleep(.7)
+                            
                             if article_date:
                                 #with open(path_article+'/Bilder/'+'Link.txt', 'w') as f:
                                 with open(path_article+'/'+article_date+'.txt', 'w') as f:
                                     f.write(article_date)
-                                time.sleep(.5)
+                                time.sleep(.7)
                             
                             # single img
                             """
@@ -176,11 +188,14 @@ for s in subject:
                                     save_img(i[0], path_img)           
                                     #print(colored("Saving img{} of {} ".format(c,imgt),"green"))
 
+
                             console_output(w,s,header,text_count,img,article_date)
                             save_article_title(r)
-                            time.sleep(.5)
+                            time.sleep(.7)
+
+                        
                     except Exception as e:
-                        print ('analyzing ...')
+                        console_reject(r)
                 else:
                     print(colored("Article already exist, skipping ...","red"))
         else:
