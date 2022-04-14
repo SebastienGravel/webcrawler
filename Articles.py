@@ -1,3 +1,4 @@
+from datetime import datetime
 from bs4 import BeautifulSoup
 import requests, pathlib, re
 
@@ -157,6 +158,14 @@ class Articles:
         datex = re.findall("[0-9]+-[0-9]+-[0-9]+", alphabet_soup)
         return datex
 
+    def date_without_year(self, soup):
+        alphabet_soup = soup
+        datex = re.match("(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s[0-9]+", alphabet_soup)
+        if datex != None:
+             array_date = datex.group().split(" ")
+        else:
+            array_date = []
+        return array_date
 
     def extract_date(self,date_val,type,month_dict):
         fulltime = str(date_val)
@@ -192,6 +201,20 @@ class Articles:
             published_date = dash_date_array[2]+"-"+dash_date_array[1]+"-"+dash_date_array[0] 
         elif type == 3:
             published_date = str(date_val[0])
+        elif type == 4:
+            month_value = array_date[0].lower()
+            if month_value.isalpha():
+                for m,n in month_dict.items():
+                    #if month_value == m:
+                    if m.find(month_value) != -1:
+                        month = n
+            else:
+                month = month_value
+            ct = datetime.datetime.now()
+            today = ct.date()
+            year = today.strftime("%Y")
+            days_format = int(array_date[1]) if int(array_date[1]) > 10 else int('00')+int(array_date[1])
+            published_date = year+"-"+month+"-"+str(days_format)
         else:
             pass
 
@@ -220,6 +243,7 @@ class Articles:
             if soup.find("article").find("time"):
                 #print("Time in article tag exist")
                 time = soup.find("article").find("time")
+                #print(time)
                 for k,v in time.attrs.items():
                     if k == "datetime":
                         fulltime = time['datetime'].split("T")
@@ -254,6 +278,7 @@ class Articles:
             elif soup.find("time"):
                 #print("Time tag exist")
                 time = soup.find("time")
+                #print(time)
                 for k,v in time.attrs.items():
                     if k == "datetime":
                         fulltime = time['datetime'].split("T")
@@ -285,13 +310,18 @@ class Articles:
                 #print(published_date)
                 return published_date
             else:
-
-                soup_date = str(soup.find("body"))
+                if soup.find("article"):
+                    soup_date = str(soup.find("article"))
+                else:
+                    soup_date = str(soup.find("body"))
+                
+                #soup_date = str(soup.find("body"))
 
                 search_date = self.date_mdy(soup_date) # Aaa+ 00, 0000
                 rev_text_date = self.date_dmy(soup_date) # 00 Aaa+, 0000
                 slash_date = self.date_slash(soup_date) # 00/00/0000
                 dash_date = self.date_dash(soup_date) # 00-00-0000
+                noyear_date = self.date_without_year(soup_date) # Aaa 00
 
                 """
                 print(search_date[0])
@@ -310,6 +340,9 @@ class Articles:
                 dd = self.extract_date(dash_date[0], 3, month_dict)
                 print("Dash "+ dd)
 
+                print(noyear_date[0])
+                nyd = self.extract_date(noyear_date[0], 4, month_dict)
+                print("nyd "+ nyd)
                 """
                 if len(search_date) > 0:
                     published_date = self.extract_date(search_date[0], 0, month_dict)
@@ -323,10 +356,14 @@ class Articles:
                 elif len(dash_date) > 0:
                     published_date = self.extract_date(dash_date[0], 3, month_dict)
                     #print("Pub "+published_date)
+                elif len(noyear_date) > 0:
+                    published_date = self.extract_date(noyear_date[0], 4, month_dict)
+                    #print("Pub "+published_date)
                 else:
                     published_date = "0000-00-00"
-                    #print(published_date)
-                
+                    #print("Pub "+published_date)
+
+                #print("Final "+published_date)
                 
         except Exception as e:
             #print("No date available")
