@@ -53,10 +53,10 @@ If you want to run the webcrawler without saving files to the computer, you can 
 
 `python app.py -d` or `python app.py --debug`
 
-
 The arguments can be combined together, if you want to run a none strict search, on any website, without saving the data, it will look like this 
 
 `python app.py -ns -as -d` or `python app.py --nostrict --allsite --debug`
+
 ---
 
 You can stop the webcrawler by typing **CTRL-D** 
