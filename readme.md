@@ -45,6 +45,18 @@ To run the application in nostrict mode you need to pass the argument -ns or --n
 
 `python app.py -ns` or `python app.py --nostrict`
 
+It's also possible to perform a search ignoring the websites list with the argument -as or --allsite.
+
+`python app.py -as` or `python app.py --allsite`
+
+If you want to run the webcrawler without saving files to the computer, you can use argument -d or --debug
+
+`python app.py -d` or `python app.py --debug`
+
+
+The arguments can be combined together, if you want to run a none strict search, on any website, without saving the data, it will look like this 
+
+`python app.py -ns -as -d` or `python app.py --nostrict --allsite --debug`
 ---
 
 You can stop the webcrawler by typing **CTRL-D** 
