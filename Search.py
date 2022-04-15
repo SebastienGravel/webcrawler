@@ -45,8 +45,8 @@ class Search:
                         if a['href'].find("images.") == -1:
                             if a['href'].find(".pdf") == -1:
                                 if a['href'].find(".stm") == -1:
-                                        if a['href'].find(".video") == -1:
-                                            urls.append(a['href'])
+                                    if a['href'].find(".video") == -1:
+                                        urls.append(a['href'])
         return urls
 
 
