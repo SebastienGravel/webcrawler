@@ -74,7 +74,7 @@ class Search:
                 result = soup.find('div', {"id":"main"})
 
             li = result.find_all('li')
-            print(result)
+            #print(result)
             for l in li:
                 a = l.find('a')
                 
