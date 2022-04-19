@@ -82,6 +82,8 @@ search_mode = argparse.ArgumentParser(description="Search mode")
 search_mode.add_argument('-ns', '--nostrict', nargs='?', const=1, type=int, help="Search in nostrict mode")
 search_mode.add_argument('-as', '--allsite', nargs='?', const=1, type=int, help="Ignore the website list and perform a search only with the subjects list")
 search_mode.add_argument('-d', '--debug', nargs='?', const=1, type=int, help="Prevent search result from being saved")
+search_mode.add_argument('-dp', '--depth', nargs='?', const=1, type=int, help="Number of page")
+search_mode.add_argument('-bn', '--breakingnews', nargs='?', const=1, type=int, help="Switch the search url to news section")
 args = search_mode.parse_args()
 
 
@@ -109,7 +111,7 @@ debug_date = 0
 if args.allsite == None:
     for s in subject:
         for w in website:
-            look_up = Search(w,s, args.nostrict, args.allsite)
+            look_up = Search(w,s, args.nostrict, args.allsite, args.depth, args.breakingnews)
             result = look_up.get_results()
 
             if result:
@@ -135,7 +137,10 @@ if args.allsite == None:
 
                                 folder_term = s.replace(" ","_")
                                 path_term = os.path.join(path,folder_term)
-                                title_folder = clean_title(header)
+                                if args.breakingnews == None:
+                                    title_folder = clean_title(header)
+                                else:
+                                    title_folder = "news_"+clean_title(header)
 
                                 if not os.path.exists(path_term):
                                     #os.makedirs('my_folder')
@@ -213,7 +218,7 @@ if args.allsite == None:
                 print(colored("No result found for {} on website {}".format(s,w),"red"))
 else:
     for s in subject:
-        look_up = Search("",s, args.nostrict, args.allsite)
+        look_up = Search("",s, args.nostrict, args.allsite, args.depth, args.breakingnews)
         result = look_up.get_results()
         site_name = ""
 
@@ -240,7 +245,11 @@ else:
 
                             folder_term = s.replace(" ","_")
                             path_term = os.path.join(path,folder_term)
-                            title_folder = clean_title(header)
+
+                            if args.breakingnews == None:
+                                title_folder = clean_title(header)
+                            else:
+                                title_folder = "news_"+clean_title(header)
 
                             if not os.path.exists(path_term):
                                 #os.makedirs('my_folder')
