@@ -51,13 +51,17 @@ It's also possible to perform a search ignoring the websites list with the argum
 
 `python app.py -as` or `python app.py --allsite`
 
+By default, the webcrawler return the first 3 page of search result, you can modify the search depth with the argument -dp or --depth follow by a page value 
+
+`python app.py -dp 5` or `python app.py --depth 5`
+
 If you want to run the webcrawler without saving files to the computer, you can use argument -d or --debug
 
 `python app.py -d` or `python app.py --debug`
 
 The arguments can be combined together, if you want to run a none strict search, on any website, without saving the data, it will look like this 
 
-`python app.py -ns -as -d` or `python app.py --nostrict --allsite --debug`
+`python app.py -ns -as -d -dp 5` or `python app.py --nostrict --allsite --debug --depth 5`
 
 ---
 
