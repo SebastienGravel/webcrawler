@@ -73,22 +73,24 @@ class Search:
             else:
                 result = soup.find('div', {"id":"main"})
 
-            li = result.find_all('li')
-            #print(result)
-            for l in li:
-                a = l.find('a')
-                
-                if a:
-                    if a.get_text() != "Cached":
-                        if a.get_text() != "Yahoo Search Help Center":
-                            if a['href'].find("images.") == -1:
-                                if a['href'].find(".pdf") == -1:
-                                    if a['href'].find(".stm") == -1:
-                                        if a['href'].find(".video") == -1:
-                                            urls.append(a['href'])
-                                            
-                
-            page = page + steps
+            try:
+                li = result.find_all('li')
+                for l in li:
+                    a = l.find('a')
+                    
+                    if a:
+                        if a.get_text() != "Cached":
+                            if a.get_text() != "Yahoo Search Help Center":
+                                if a['href'].find("images.") == -1:
+                                    if a['href'].find(".pdf") == -1:
+                                        if a['href'].find(".stm") == -1:
+                                            if a['href'].find(".video") == -1:
+                                                urls.append(a['href'])
+                                                
+                    
+                page = page + steps
+            except Exception as e:
+                pass
         
         """
         if self.mode == 1:
